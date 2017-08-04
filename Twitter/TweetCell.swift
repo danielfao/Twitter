@@ -14,6 +14,8 @@ class TweetCell: DatasourceCell {
         didSet {
             guard let tweet = datasourceItem as? Tweet else {return}
             
+            profileImageView.loadImage(urlString: tweet.user.profileImageUrl)
+            
             let attributedText = NSMutableAttributedString(string: tweet.user.name, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 16)])
             
             //String interpolation to add spaces between the strings
@@ -33,13 +35,12 @@ class TweetCell: DatasourceCell {
     
     let messageTextView: UITextView = {
         let textView = UITextView()
-        textView.text = "Some Sample Text"
         textView.backgroundColor = .clear
         return textView
     }()
     
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView()
+    let profileImageView: CachedImageView = {
+        let imageView = CachedImageView()
         imageView.image = #imageLiteral(resourceName: "profileImageD")
         imageView.layer.cornerRadius = 5
         imageView.clipsToBounds = true
